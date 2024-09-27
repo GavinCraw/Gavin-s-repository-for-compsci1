@@ -1,0 +1,65 @@
+import random
+print("Hello silly human, welcome to Trick-or-Treat Simulator!")
+# Define costumes and their corresponding candy values
+costumes = {
+    "Jonesy": {"treat": 5, "trick_min": -3, "trick_max": 10},
+    "Doom": {"treat": 6, "trick_min": 1, "trick_max": 8},
+    "Ryu": {"treat": 4, "trick_min": 3, "trick_max": 12},
+    "Mandy": {"treat": 20, "trick_min": 0, "trick_max": 25}
+}
+
+# Function to pick a costume
+def pick_costume():
+    print("\nChoose your costume:")
+    for costume in costumes:
+        print(costume)
+    chosen_costume = input("Enter the name of the costume: ")
+    
+    while chosen_costume not in costumes:
+        print("Invalid choice, please pick again.")
+        chosen_costume = input("Enter the name of the costume: ")
+    
+    print(f"You chose {chosen_costume}!")
+    return chosen_costume
+
+# Function to simulate visiting a house
+def visit_house(treat, trick_min, trick_max):
+    print("\nYou've arrived at a house!")
+    choice = input("Do you want a treat (type 'treat') or do you want to risk a trick (type 'trick')? ").lower()
+    
+    if choice == "treat":
+        print(f"You chose a treat and got {treat} pieces of candy!")
+        return treat
+    elif choice == "trick":
+        trick_candy = random.randint(trick_min, trick_max)
+        print(f"You took the risk and got {trick_candy} pieces of candy!")
+        return trick_candy
+    else:
+        print("Invalid choice, you get 0 candy this round.")
+        return 0
+
+# Main game logic
+def play_game():
+    costume = pick_costume()
+    
+    treat = costumes[costume]["treat"]
+    trick_min = costumes[costume]["trick_min"]
+    trick_max = costumes[costume]["trick_max"]
+    
+    total_candy = 0
+    houses = 5
+    
+    for house in range(1, houses + 1):
+        print(f"\nHouse {house} of {houses}")
+        candy = visit_house(treat, trick_min, trick_max)
+        total_candy += candy
+        print(f"Total candy collected so far: {total_candy} pieces")
+    
+    # Check if the player won or lost
+    if total_candy >= 30:
+        print(f"\nCongratulations! You collected {total_candy} pieces of candy and now the ruler of Halloween! BWAAHAHAHAHA")
+    else:
+        print(f"\nSorry, you only collected {total_candy} pieces of candy. You needed 30 to win, now an evil witch turned you into a frog :(")
+
+# Start the game
+play_game()
